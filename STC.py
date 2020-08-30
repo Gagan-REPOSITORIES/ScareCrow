@@ -24,13 +24,24 @@ steptype = steptype_2 = "1/8" #(Full, Half, 1/4, 1/8, 1/16)
 
 
 def motorgoto(x = 1, y = 1):
-    xChange = x - (width/2) # for Frame centered calibration
-    yChange = y - (height/2) # for Frame centered calibration
+    prevPosition = readPosition()
+    xChange = x - prevPosition[0] #previous stored x position
+    yChange = y - prevPosition[1] # previous stored y position
     clockwise = True if xChange > 0 else False # if the detect object is right from center frame then clockwise else anticlock wise
     clockwise_2 = True if yChange > 0 else False # if the detect object is right from center frame then clockwise else anticlock wise
     # formula to calculate number of steps required to move to object position
-    motor1steps = int(round(((RequiredSteps/width) * abs(xChange)) , 0)) 
+    motor1steps = int(round(((RequiredSteps/width) * abs(xChange)) , 0))
     motor2steps = int(round(((RequiredSteps/height) * abs(yChange)), 0))
+    writePosition(x,y)
+
+def writePosition(xcor, ycor):
+    with open("laserPosition.txt", 'w', encoding = 'utf-8') as f:
+        f.write(str(xcor) + "\n")
+        f.write(str(ycor) + "\n")
+
+def readPosition():
+    with open("laserPosition.txt", 'r', encoding = 'utf-8') as f:
+        return f.readlines()
 
 #motor_go(clockwise, steptype, steps, stepdelay, verbose, initdelay)
 mymotortest.motor_go(clockwise, steptype , motor1steps , .01, False, .05)#connected to left side of GPIO extention
