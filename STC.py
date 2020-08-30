@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import RPi.GPIO as GPIO
-
-from RpiMotorLib import RpiMotorLib
+import RpiMotorLib
     
 #define GPIO pins
 GPIO_pins = (17, 27, 22) # Microstep Resolution MS1-MS3 -> GPIO Pin
@@ -24,13 +23,13 @@ f = False
 
 clockwise = t
 steptype = "1/8"
-steps = 200#30steps
-mymotortest.motor_go(clockwise, steptype , steps , .01, False, .05)
+steps = 200# 1 step = 0.225degree ; 1600 steps = 360 degree
+mymotortest.motor_go(clockwise, steptype , steps , .01, False, .05)#connected to left side of GPIO extention
 
 clockwise_2 = t
 steptype_2 = "1/8"
-steps_2 = 200#23steps
-mymotortest_2.motor_go(clockwise_2, steptype_2 , steps_2 , .01, False, .05)
+steps_2 = 200# 1 step = 0.225degree ; 1600 steps = 360 degree
+mymotortest_2.motor_go(clockwise_2, steptype_2 , steps_2 , .01, False, .05)#connected to right side of GPIO extention
     
 # good practise to cleanup GPIO at some point before exit
 #GPIO.cleanup()

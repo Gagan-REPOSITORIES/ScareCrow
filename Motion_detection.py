@@ -1,26 +1,11 @@
 #!/usr/bin/env python3
-# Python program to implement
-# WebCam Motion Detector
+# Python program to implement WebCam Motion Detector
 
-# importing OpenCV, time and Pandas library
+# importing OpenCV, time
 import cv2
-import time
-# import pandas
-# importing datetime class from datetime library
-from datetime import datetime
 
 # Assigning our static_back to None
 static_back = None
-
-# List when any moving object appear
-motion_list = [None, None]
-
-# Time of movement
-time = []
-
-# Initializing DataFrame, one column is start
-# time and other column is end time
-# df = pandas.DataFrame(columns=["Start", "End"])
 
 # Capturing video
 video = cv2.VideoCapture(0)
@@ -29,7 +14,6 @@ video = cv2.VideoCapture(0)
 freq = cv2.getTickFrequency()
 x = 640
 y = 480
-scale = 1.5
 # Infinite while loop to treat stack of image as video
 while True:
 
