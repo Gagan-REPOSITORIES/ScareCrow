@@ -25,14 +25,20 @@ steptype = steptype_2 = "1/8" #(Full, Half, 1/4, 1/8, 1/16)
 
 def motorgoto(x = 1, y = 1):
     prevPosition = readPosition()
-    xChange = x - prevPosition[0] #previous stored x position
-    yChange = y - prevPosition[1] # previous stored y position
+    xChange = x - int(prevPosition[0]) #previous stored x position
+    yChange = y - int(prevPosition[1]) # previous stored y position
     clockwise = True if xChange > 0 else False # if the detect object is right from center frame then clockwise else anticlock wise
     clockwise_2 = True if yChange > 0 else False # if the detect object is right from center frame then clockwise else anticlock wise
     # formula to calculate number of steps required to move to object position
     motor1steps = int(round(((RequiredSteps/width) * abs(xChange)) , 0))
     motor2steps = int(round(((RequiredSteps/height) * abs(yChange)), 0))
     writePosition(x,y)
+    #motor_go(clockwise, steptype, steps, stepdelay, verbose, initdelay)
+    if motor1steps > 0:
+        mymotortest.motor_go(clockwise, steptype , motor1steps , .01, False, .05)#connected to left side of GPIO extention
+    if motor2steps > 0:
+        mymotortest_2.motor_go(clockwise_2, steptype_2 , motor2steps , .01, False, .05)#connected to right side of GPIO extention
+    print("Laser current position x = ",x," y = ", y)
 
 def writePosition(xcor, ycor):
     with open("laserPosition.txt", 'w', encoding = 'utf-8') as f:
@@ -43,9 +49,6 @@ def readPosition():
     with open("laserPosition.txt", 'r', encoding = 'utf-8') as f:
         return f.readlines()
 
-#motor_go(clockwise, steptype, steps, stepdelay, verbose, initdelay)
-mymotortest.motor_go(clockwise, steptype , motor1steps , .01, False, .05)#connected to left side of GPIO extention
-mymotortest_2.motor_go(clockwise_2, steptype_2 , motor2steps , .01, False, .05)#connected to right side of GPIO extention
 
 # good practise to cleanup GPIO at some point before exit
 #GPIO.cleanup()
